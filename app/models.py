@@ -35,3 +35,17 @@ class Transaction(db.Model):
     description = db.Column(db.String(200), nullable=False)
     amount = db.Column(db.Float, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
+
+class ExchangeRate(db.Model):
+    __tablename__ = 'exchange_rates'
+    id = db.Column(db.Integer, primary_key=True)
+    source_currency = db.Column(db.String(3), nullable=False)
+    target_currency = db.Column(db.String(3), nullable=False)
+    rate = db.Column(db.Float, nullable=False)
+
+class ExchangeFee(db.Model):
+    __tablename__ = 'exchange_fees'
+    id = db.Column(db.Integer, primary_key=True)
+    source_currency = db.Column(db.String(3), nullable=False)
+    target_currency = db.Column(db.String(3), nullable=False)
+    fee = db.Column(db.Float, nullable=False)

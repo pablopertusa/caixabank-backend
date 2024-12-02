@@ -21,3 +21,12 @@ curl -X GET http://localhost:3000/api/recurring-expenses/ \
 
 curl -X GET http://localhost:3000/api/recurring-expenses/ \
 -H "Authorization: Bearer x"
+
+curl -X POST "http://localhost:3000/api/transfers/simulate" \
+-H "Authorization: Bearer YOUR_JWT_TOKEN" \
+-H "Content-Type: application/json" \
+-d '{
+    "amount": 100.0,
+    "source_currency": "USD",
+    "target_currency": "EUR"
+}'
