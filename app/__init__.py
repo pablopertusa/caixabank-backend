@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from app.config import Config
 from app.models import db
@@ -10,6 +9,8 @@ def create_app():
 
     # Initialize extensions
     db.init_app(app)
+    with app.app_context():
+        db.create_all()
     JWTManager(app)
 
     # Register blueprints
