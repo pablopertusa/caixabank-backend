@@ -1,6 +1,7 @@
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 from app.models import db, User
+import uuid
 from app.utils.validator import is_valid_email
 
 def register_user(data):
@@ -24,7 +25,8 @@ def register_user(data):
 
     # Create new user
     hashed_password = generate_password_hash(password).decode("utf-8")
-    new_user = User(name=name, email=email, password=hashed_password)
+    user_id = str(uuid.uuid4())
+    new_user = User(id=user_id, name=name, email=email, password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
 
@@ -53,7 +55,16 @@ def login_user(data):
     # Verify password
     if not check_password_hash(user.password, password):
         return {"error": "Bad credentials."}, 401
+    
+    user = User.query.filter_by(email=email).first()
+    if user:
+        id = user.id
+    else: 
+        return 500
+    
+    print(id)
+    print('str:', str(id))
 
     # Generate JWT token
-    token = create_access_token(identity={"email": email, "name": user.name})
+    token = create_access_token(identity=str(id))
     return {"token": token}, 200

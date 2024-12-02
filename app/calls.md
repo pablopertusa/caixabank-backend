@@ -1,0 +1,18 @@
+curl -X POST http://localhost:3000/api/auth/register \            
+-H "Content-Type: application/json" \
+-d '{"email": "", "password": "securepassword123", "name": "John Doe"}'
+
+curl -X POST http://localhost:3000/api/auth/login \
+-H "Content-Type: application/json" \
+-d '{"email": "user@example.com", "password": "securepassword123"}'
+
+
+curl -X POST http://localhost:3000/api/recurring-expenses/ \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer x" \
+-d '{
+  "expense_name": "TV Subscription",
+  "amount": 12.99,
+  "frequency": "monthly",
+  "start_date": "2024-01-01"
+}'

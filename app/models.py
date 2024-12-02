@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
 
 db = SQLAlchemy()
 
@@ -20,9 +22,11 @@ class RecurringExpense(db.Model):
     __tablename__ = 'recurring_expenses'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    description = db.Column(db.String(200), nullable=False)
+    expense_name = db.Column(db.String(255), nullable=False)
     amount = db.Column(db.Float, nullable=False)
-    schedule = db.Column(db.String(50), nullable=False)  # e.g., "monthly", "weekly"
+    frequency = db.Column(db.String(50), nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
 class Transaction(db.Model):
     __tablename__ = 'transactions'
