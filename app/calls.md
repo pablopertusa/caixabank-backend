@@ -55,5 +55,15 @@ curl -X POST "http://localhost:3000/api/alerts/delete" \
 curl -X GET "http://localhost:3000/api/alerts/list" \
 -H "Authorization: Bearer YOUR_JWT_TOKEN"
 
+curl -X POST "http://localhost:3000/api/transactions" \
+-H "Authorization: Bearer YOUR_JWT_TOKEN" \
+-H "Content-Type: application/json" \
+-d '{
+    "amount": 150.50,
+    "category": "electronics",
+    "timestamp": "2024-11-20T10:30:00Z"
+}'
+
+
 
 

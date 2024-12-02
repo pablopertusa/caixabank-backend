@@ -34,20 +34,7 @@ class Transaction(db.Model):
     __tablename__ = 'transactions'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(255), db.ForeignKey('users.id'), nullable=False)
-    description = db.Column(db.String(200), nullable=False)
     amount = db.Column(db.Float, nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
-
-class ExchangeRate(db.Model):
-    __tablename__ = 'exchange_rates'
-    id = db.Column(db.Integer, primary_key=True)
-    source_currency = db.Column(db.String(3), nullable=False)
-    target_currency = db.Column(db.String(3), nullable=False)
-    rate = db.Column(db.Float, nullable=False)
-
-class ExchangeFee(db.Model):
-    __tablename__ = 'exchange_fees'
-    id = db.Column(db.Integer, primary_key=True)
-    source_currency = db.Column(db.String(3), nullable=False)
-    target_currency = db.Column(db.String(3), nullable=False)
-    fee = db.Column(db.Float, nullable=False)
+    category = db.Column(db.String(100), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.now)
+    fraud = db.Column(db.Boolean, default=False) 
