@@ -15,8 +15,10 @@ class Alert(db.Model):
     __tablename__ = 'alerts'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(255), db.ForeignKey('users.id'), nullable=False)
-    type = db.Column(db.String(50), nullable=False)  # e.g., "savings", "balance_drop"
-    threshold = db.Column(db.Float, nullable=False)
+    target_amount = db.Column(db.Float, nullable=True)  # Used for amount_reached alerts
+    alert_threshold = db.Column(db.Float, nullable=True)  # Used for amount_reached alerts
+    balance_drop_threshold = db.Column(db.Float, nullable=True)  # Used for balance_drop alerts
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
 class RecurringExpense(db.Model):
     __tablename__ = 'recurring_expenses'
