@@ -1,4 +1,4 @@
-curl -X POST http://localhost:3000/api/auth/register \            
+curl -X POST http://localhost:3000/api/auth/register \
 -H "Content-Type: application/json" \
 -d '{"email": "", "password": "securepassword123", "name": "John Doe"}'
 
@@ -16,3 +16,6 @@ curl -X POST http://localhost:3000/api/recurring-expenses/ \
   "frequency": "monthly",
   "start_date": "2024-01-01"
 }'
+
+curl -X GET http://localhost:3000/api/recurring-expenses/ \
+-H "Authorization: Bearer x"  

@@ -65,3 +65,23 @@ def add_expense():
         "start_date": new_expense.start_date.strftime('%Y-%m-%d'),
         "created_at": new_expense.created_at.strftime('%Y-%m-%d %H:%M:%S')
     }}), 201
+
+@expenses_bp.route('/', methods=['GET'])
+@jwt_required()
+def get_expenses():
+    current_user = get_jwt_identity()
+    expenses = RecurringExpense.query.filter_by(user_id=current_user).all()
+
+    if not expenses:
+        return jsonify({"msg": "No recurring expenses found."}), 404
+
+    data = [{
+        "id": expense.id,
+        "expense_name": expense.expense_name,
+        "amount": expense.amount,
+        "frequency": expense.frequency,
+        "start_date": expense.start_date.strftime('%Y-%m-%d'),
+        "created_at": expense.created_at.strftime('%Y-%m-%d %H:%M:%S')
+    } for expense in expenses]
+
+    return jsonify({"msg": "Recurring expenses retrieved successfully.", "data": data}), 200
