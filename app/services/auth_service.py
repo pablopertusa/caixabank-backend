@@ -61,9 +61,6 @@ def login_user(data):
         id = user.id
     else: 
         return 500
-    
-    print(id)
-    print('str:', str(id))
 
     # Generate JWT token
     token = create_access_token(identity=str(id))
