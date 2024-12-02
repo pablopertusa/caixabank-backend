@@ -3,6 +3,8 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models import db, Transaction
 from datetime import datetime
 from app.utils.fraud_detection import calculate_daily_avg, check_rapid_transactions, check_unusual_category, check_high_deviation
+from app.models import User
+
 
 transactions_bp = Blueprint('transactions', __name__, url_prefix='/api/transactions')
 
@@ -12,8 +14,11 @@ def add_transaction():
     current_user = get_jwt_identity()  # Get the current logged-in user
     data = request.get_json()
 
+    if not data:
+        return jsonify({"msg": "No data provided."}), 400
+
     # Validate input
-    if not data or 'amount' not in data or 'category' not in data:
+    if 'amount' not in data or 'category' not in data:
         return jsonify({"msg": "No empty fields allowed."}), 400
 
     # Set timestamp if not provided
@@ -40,6 +45,9 @@ def add_transaction():
     transaction.fraud = bool(fraud_flags)
     
     db.session.add(transaction)
+
+    user = User.query.filter_by(id=current_user).first()
+    user.balance += data['amount']
     db.session.commit()
 
     return jsonify({
